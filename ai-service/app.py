@@ -138,4 +138,4 @@ if __name__ == '__main__':
     print("🤖 MindEase AI Service Started!")
     print("📍 Running on http://localhost:5001")
     print("💙 Ready to support users")
-    app.run(port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
