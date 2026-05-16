@@ -106,6 +106,10 @@ class MentalHealthAI:
 ai = MentalHealthAI()
 
 # Routes
+@app.route('/')
+def home():
+    return jsonify({'message': 'MindEase AI Service is running! 🧠', 'status': 'ready'})
+
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
