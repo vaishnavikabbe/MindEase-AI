@@ -13,6 +13,7 @@ import AcademicLoad from './pages/AcademicLoad';
 import Journal from './pages/Journal';
 import MoodHistory from './pages/MoodHistory';
 import Games from './pages/Games';
+import SleepMode from './pages/SleepMode';
 import './App.css';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/journal" element={isLoggedIn ? <Journal /> : <Navigate to="/" />} />
           <Route path="/mood-history" element={isLoggedIn ? <MoodHistory /> : <Navigate to="/" />} />
           <Route path="/games" element={isLoggedIn ? <Games /> : <Navigate to="/" />} />
+          <Route path="/sleep" element={isLoggedIn ? <SleepMode /> : <Navigate to="/" />} />
         </Routes>
       </div>
     </BrowserRouter>
