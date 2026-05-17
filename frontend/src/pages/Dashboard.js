@@ -47,7 +47,7 @@ function Dashboard() {
     setCurrentTip(burnoutTips[Math.floor(Math.random() * burnoutTips.length)]);
   }, []);
 
-  const upcomingItems = academicItems.filter(i => !i.completed).slice(0, 2);
+  const upcomingItems = academicItems.filter(i => !i.completed).slice(0, 1);
 
   const quickActions = [
     { icon: <FaComments size={16} />, label: 'AI Chat', color: '#667eea', path: '/chat' },
@@ -70,7 +70,7 @@ function Dashboard() {
       <div style={styles.navSpacer} />
       
       <div style={styles.content}>
-        {/* Welcome Card - Mobile Friendly */}
+        {/* Welcome Card */}
         <div style={styles.welcomeCard}>
           <div style={styles.welcomeContent}>
             <div style={styles.userInfoContainer}>
@@ -99,7 +99,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Stats Row - Mobile Friendly (2x2 Grid on mobile) */}
+        {/* Stats Row - 2x2 Grid */}
         <div style={styles.statsRow}>
           <div style={styles.statTile}>
             <div style={styles.statValue}>{stats.streak}</div>
@@ -107,7 +107,7 @@ function Dashboard() {
           </div>
           <div style={styles.statTile}>
             <div style={styles.statValue}>{stats.totalFocus}</div>
-            <div style={styles.statLabel}>⏰Focus Minutes</div>
+            <div style={styles.statLabel}>⏰Focus Min</div>
           </div>
           <div style={styles.statTile}>
             <div style={styles.statValue}>{stats.habitsCompleted}</div>
@@ -119,57 +119,41 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Three Cards - Stack on Mobile */}
+        {/* Three Cards - Side by Side (3 columns) */}
         <div style={styles.threeCardsRow}>
           
-          <div style={styles.compactCard} onClick={() => navigate('/academic-load')}>
-            <div style={styles.compactCardHeader}>
-              <span style={styles.compactCardIcon}>📚</span>
-              <span style={styles.compactCardTitle}>Academic Load</span>
-              <FaArrowRight size={10} color="#667eea" />
+          {/* Academic Load Card */}
+          <div style={styles.smallCard} onClick={() => navigate('/academic-load')}>
+            <div style={styles.smallCardHeader}>
+              <span style={styles.smallCardIcon}>📚</span>
+              <FaArrowRight size={8} color="#667eea" />
             </div>
+            <div style={styles.smallCardTitle}>Academic</div>
             {upcomingItems.length === 0 ? (
-              <p style={styles.compactCardEmpty}>No pending tasks</p>
+              <div style={styles.smallCardBadge}>No tasks</div>
             ) : (
-              upcomingItems.map(item => (
-                <div key={item.id} style={styles.compactTask}>
-                  <span>{item.type === 'exam' ? '📝' : '📄'}</span>
-                  <span style={styles.compactTaskTitle}>{item.title}</span>
-                </div>
-              ))
+              <div style={styles.smallCardBadge}>{upcomingItems[0].title.substring(0, 10)}</div>
             )}
-            <div style={styles.compactCardFooter}>
-              <span>View all →</span>
-            </div>
           </div>
 
-          <div style={styles.compactCard} onClick={() => navigate('/burnout')}>
-            <div style={styles.compactCardHeader}>
-              <span style={styles.compactCardIcon}>🔥</span>
-              <span style={styles.compactCardTitle}>Burnout Check</span>
-              <FaArrowRight size={10} color="#667eea" />
+          {/* Burnout Check Card */}
+          <div style={styles.smallCard} onClick={() => navigate('/burnout')}>
+            <div style={styles.smallCardHeader}>
+              <span style={styles.smallCardIcon}>🔥</span>
+              <FaArrowRight size={8} color="#667eea" />
             </div>
-            <div style={styles.compactTip}>
-              <span>💡 {currentTip}</span>
-            </div>
-            <div style={styles.compactCardFooter}>
-              <span>Take assessment →</span>
-            </div>
+            <div style={styles.smallCardTitle}>Burnout</div>
+            <div style={styles.smallCardBadge}>Check →</div>
           </div>
 
-          <div style={styles.compactCard} onClick={() => navigate('/anonymous')}>
-            <div style={styles.compactCardHeader}>
-              <span style={styles.compactCardIcon}>🔒</span>
-              <span style={styles.compactCardTitle}>Anonymous</span>
-              <FaArrowRight size={10} color="#667eea" />
+          {/* Anonymous Card */}
+          <div style={styles.smallCard} onClick={() => navigate('/anonymous')}>
+            <div style={styles.smallCardHeader}>
+              <span style={styles.smallCardIcon}>🔒</span>
+              <FaArrowRight size={8} color="#667eea" />
             </div>
-            <div style={styles.compactAnonymous}>
-              <span>Share anonymously</span>
-              <span style={styles.compactBadge}>Private</span>
-            </div>
-            <div style={styles.compactCardFooter}>
-              <span>Chat →</span>
-            </div>
+            <div style={styles.smallCardTitle}>Anonymous</div>
+            <div style={styles.smallCardBadge}>Chat →</div>
           </div>
         </div>
 
@@ -181,7 +165,7 @@ function Dashboard() {
           <MoodTracker selectedMood={selectedMood} setSelectedMood={setSelectedMood} />
         </div>
 
-        {/* Quick Actions - 2x2 Grid on Mobile */}
+        {/* Quick Actions - 2x2 Grid */}
         <div style={styles.actionGrid}>
           {quickActions.map((action, index) => (
             <div
@@ -223,7 +207,7 @@ const styles = {
     padding: '12px',
   },
   
-  // Welcome Card - Mobile
+  // Welcome Card
   welcomeCard: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     borderRadius: '16px',
@@ -315,7 +299,7 @@ const styles = {
     boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
   },
   statValue: {
-    fontSize: '24px',
+    fontSize: '22px',
     fontWeight: 'bold',
     color: '#333',
   },
@@ -325,84 +309,44 @@ const styles = {
     marginTop: '4px',
   },
 
-  // Three Cards - Stack on Mobile
+  // Three Cards - Side by Side (3 columns)
   threeCardsRow: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '10px',
     marginBottom: '16px',
   },
-  compactCard: {
+  smallCard: {
     background: 'white',
     borderRadius: '14px',
-    padding: '14px',
+    padding: '12px 8px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+    textAlign: 'center',
   },
-  compactCardHeader: {
+  smallCardHeader: {
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: '8px',
     marginBottom: '10px',
-    fontSize: '14px',
+  },
+  smallCardIcon: {
+    fontSize: '24px',
+  },
+  smallCardTitle: {
+    fontSize: '12px',
     fontWeight: '600',
     color: '#333',
+    marginBottom: '8px',
   },
-  compactCardIcon: {
-    fontSize: '20px',
-  },
-  compactCardTitle: {
-    flex: 1,
-    fontSize: '13px',
-  },
-  compactCardEmpty: {
-    fontSize: '11px',
-    color: '#999',
-    textAlign: 'center',
-    padding: '12px 0',
-    margin: 0,
-  },
-  compactTask: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    padding: '6px 0',
-    fontSize: '11px',
-    borderBottom: '1px solid #f0f0f0',
-  },
-  compactTaskTitle: {
-    fontSize: '11px',
-    color: '#555',
-  },
-  compactTip: {
-    padding: '10px 0',
-    fontSize: '11px',
-    color: '#667eea',
-    textAlign: 'center',
-  },
-  compactAnonymous: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '6px',
-    padding: '10px 0',
-    fontSize: '11px',
-  },
-  compactBadge: {
+  smallCardBadge: {
     fontSize: '9px',
-    background: '#e8f5e9',
-    padding: '3px 8px',
-    borderRadius: '15px',
-    color: '#2ecc71',
-  },
-  compactCardFooter: {
-    marginTop: '10px',
-    paddingTop: '8px',
-    borderTop: '1px solid #f0f0f0',
-    fontSize: '10px',
     color: '#667eea',
-    textAlign: 'center',
+    background: '#f0f0ff',
+    padding: '3px 6px',
+    borderRadius: '10px',
+    display: 'inline-block',
   },
 
   section: {
@@ -448,7 +392,7 @@ const styles = {
     color: '#555',
   },
   
-  // Emergency Banner - Mobile
+  // Emergency Banner
   emergencyBanner: {
     background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
     borderRadius: '12px',
