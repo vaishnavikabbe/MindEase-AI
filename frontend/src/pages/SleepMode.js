@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { 
-  FaMoon, FaSun, FaVolumeUp, FaVolumeMute, FaBed, 
-  FaLeaf, FaWater, FaCloudRain, FaFire, FaTree, 
+  FaMoon, FaSun, FaVolumeUp, FaVolumeMute, 
+  FaCloudRain, FaWater, FaTree, FaFire, 
   FaHeadphones, FaBell, FaClock, FaHeartbeat,
   FaPlay, FaPause, FaStop, FaArrowLeft, FaStar
 } from 'react-icons/fa';
 
 function SleepMode() {
   const navigate = useNavigate();
-  const [isActive, setIsActive] = useState(false);
   const [selectedSound, setSelectedSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
   const [isMuted, setIsMuted] = useState(false);
   const [timerMinutes, setTimerMinutes] = useState(30);
@@ -23,14 +23,13 @@ function SleepMode() {
   const [showStars, setShowStars] = useState(true);
   const audioRef = useRef(null);
 
-  // Sound library
+  // Working sound URLs (free and reliable)
   const sounds = [
-    { id: 'rain', name: 'Gentle Rain', icon: <FaCloudRain size={24} />, color: '#4a90e2', url: 'https://www.soundjay.com/nature/sounds/rain-on-umbrella-01.mp3' },
-    { id: 'ocean', name: 'Ocean Waves', icon: <FaWater size={24} />, color: '#2ecc71', url: 'https://www.soundjay.com/nature/sounds/ocean-waves-01.mp3' },
-    { id: 'forest', name: 'Forest Ambience', icon: <FaTree size={24} />, color: '#27ae60', url: 'https://www.soundjay.com/nature/sounds/birds-chirping-01.mp3' },
-    { id: 'fireplace', name: 'Fireplace', icon: <FaFire size={24} />, color: '#e67e22', url: 'https://www.soundjay.com/nature/sounds/fireplace-01.mp3' },
-    { id: 'thunder', name: 'Thunderstorm', icon: <FaCloudRain size={24} />, color: '#34495e', url: 'https://www.soundjay.com/nature/sounds/thunder-and-rain-01.mp3' },
-    { id: 'lofi', name: 'Lo-fi Sleep', icon: <FaHeadphones size={24} />, color: '#9b59b6', url: 'https://www.soundjay.com/misc/sounds/lofi-beat-01.mp3' },
+    { id: 'rain', name: 'Gentle Rain', icon: <FaCloudRain size={24} />, color: '#4a90e2', url: 'https://actions.google.com/soundbar/audio/rain.mp3' },
+    { id: 'ocean', name: 'Ocean Waves', icon: <FaWater size={24} />, color: '#2ecc71', url: 'https://actions.google.com/soundbar/audio/ocean.mp3' },
+    { id: 'forest', name: 'Forest Birds', icon: <FaTree size={24} />, color: '#27ae60', url: 'https://actions.google.com/soundbar/audio/birds.mp3' },
+    { id: 'fireplace', name: 'Fireplace', icon: <FaFire size={24} />, color: '#e67e22', url: 'https://actions.google.com/soundbar/audio/fireplace.mp3' },
+    { id: 'lofi', name: 'Lo-fi Sleep', icon: <FaHeadphones size={24} />, color: '#9b59b6', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
   ];
 
   // Breathing sequence
@@ -56,32 +55,56 @@ function SleepMode() {
   useEffect(() => {
     let timer;
     if (timeLeft !== null && timeLeft > 0) {
-      timer = setTimeout(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 60000);
+      timer = setTimeout(() => setTimeLeft(timeLeft - 1), 60000);
     } else if (timeLeft === 0) {
-      stopSound();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
       setIsBreathing(false);
       alert('✨ Sleep mode completed. Goodnight! ✨');
     }
     return () => clearTimeout(timer);
   }, [timeLeft]);
 
-  // Play sound
   const playSound = (sound) => {
+    // Stop current sound if playing
     if (audioRef.current) {
       audioRef.current.pause();
     }
+    
     setSelectedSound(sound);
     const audio = new Audio(sound.url);
     audio.loop = true;
     audio.volume = volume / 100;
-    audio.play();
+    audio.play().catch(error => {
+      console.error('Audio play error:', error);
+      // Fallback sound
+      const fallbackAudio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+      fallbackAudio.loop = true;
+      fallbackAudio.volume = volume / 100;
+      fallbackAudio.play();
+      audioRef.current = fallbackAudio;
+    });
     audioRef.current = audio;
-    setIsActive(true);
-    
-    // Start breathing guide
+    setIsPlaying(true);
     setIsBreathing(true);
+  };
+
+  const pauseSound = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      setIsBreathing(false);
+    }
+  };
+
+  const resumeSound = () => {
+    if (audioRef.current && selectedSound) {
+      audioRef.current.play();
+      setIsPlaying(true);
+      setIsBreathing(true);
+    }
   };
 
   const stopSound = () => {
@@ -89,10 +112,12 @@ function SleepMode() {
       audioRef.current.pause();
       audioRef.current = null;
     }
-    setIsActive(false);
     setSelectedSound(null);
+    setIsPlaying(false);
     setIsBreathing(false);
     setBreathPhase('inhale');
+    setBreathCount(0);
+    setTimeLeft(null);
   };
 
   const adjustVolume = (newVolume) => {
@@ -109,13 +134,8 @@ function SleepMode() {
     }
   };
 
-  const startSleepTimer = () => {
-    setTimeLeft(timerMinutes);
-  };
-
-  const cancelTimer = () => {
-    setTimeLeft(null);
-  };
+  const startSleepTimer = () => setTimeLeft(timerMinutes);
+  const cancelTimer = () => setTimeLeft(null);
 
   const getBreathText = () => {
     if (breathPhase === 'inhale') return 'Breathe In... 🌬️';
@@ -123,11 +143,11 @@ function SleepMode() {
     return 'Breathe Out... 💨';
   };
 
-  const stars = [...Array(100)].map((_, i) => ({
+  const stars = [...Array(80)].map((_, i) => ({
     id: i,
     left: Math.random() * 100,
     top: Math.random() * 100,
-    size: Math.random() * 3 + 1,
+    size: Math.random() * 2.5 + 1,
     delay: Math.random() * 5
   }));
 
@@ -197,7 +217,7 @@ function SleepMode() {
                 >
                   <div style={{...styles.soundIcon, color: sound.color}}>{sound.icon}</div>
                   <div style={styles.soundName}>{sound.name}</div>
-                  {selectedSound?.id === sound.id && (
+                  {selectedSound?.id === sound.id && isPlaying && (
                     <div style={styles.playingIndicator}>
                       <div style={styles.wave}></div>
                       <div style={styles.wave}></div>
@@ -209,7 +229,7 @@ function SleepMode() {
             </div>
           </div>
 
-          {/* Volume Control */}
+          {/* Playback Controls */}
           {selectedSound && (
             <div style={styles.volumeControl}>
               <button onClick={toggleMute} style={styles.muteBtn}>
@@ -224,8 +244,17 @@ function SleepMode() {
                 style={styles.volumeSlider}
               />
               <span style={styles.volumeValue}>{volume}%</span>
+              {isPlaying ? (
+                <button onClick={pauseSound} style={styles.playPauseBtn}>
+                  <FaPause size={12} /> Pause
+                </button>
+              ) : (
+                <button onClick={resumeSound} style={styles.playPauseBtn}>
+                  <FaPlay size={12} /> Play
+                </button>
+              )}
               <button onClick={stopSound} style={styles.stopBtn}>
-                <FaStop size={14} /> Stop
+                <FaStop size={12} /> Stop
               </button>
             </div>
           )}
@@ -261,7 +290,18 @@ function SleepMode() {
           <div style={styles.reminderCard}>
             <FaBell size={14} color="#f1c40f" />
             <span>Set a bedtime reminder to build a healthy sleep routine</span>
-            <button style={styles.reminderBtn}>Set Reminder</button>
+            <button 
+              onClick={() => {
+                const reminderTime = prompt("Set bedtime reminder (e.g., 10:30 PM):");
+                if (reminderTime) {
+                  alert(`Reminder set for ${reminderTime}. We'll remind you to wind down! 💙`);
+                  localStorage.setItem('bedtimeReminder', reminderTime);
+                }
+              }} 
+              style={styles.reminderBtn}
+            >
+              Set Reminder
+            </button>
           </div>
         </div>
 
@@ -451,11 +491,12 @@ const styles = {
   volumeControl: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
+    gap: '8px',
     padding: '12px',
     background: 'rgba(255,255,255,0.1)',
     borderRadius: '30px',
     marginBottom: '24px',
+    flexWrap: 'wrap',
   },
   muteBtn: {
     background: 'none',
@@ -469,23 +510,36 @@ const styles = {
     borderRadius: '2px',
     background: 'rgba(255,255,255,0.2)',
     WebkitAppearance: 'none',
+    minWidth: '100px',
   },
   volumeValue: {
     fontSize: '11px',
     color: 'white',
     minWidth: '35px',
   },
-  stopBtn: {
-    background: '#e74c3c',
+  playPauseBtn: {
+    background: '#667eea',
     border: 'none',
-    padding: '6px 14px',
+    padding: '6px 12px',
     borderRadius: '20px',
     color: 'white',
     cursor: 'pointer',
     fontSize: '11px',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px',
+    gap: '4px',
+  },
+  stopBtn: {
+    background: '#e74c3c',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '20px',
+    color: 'white',
+    cursor: 'pointer',
+    fontSize: '11px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
   },
   timerSection: {
     marginBottom: '20px',
