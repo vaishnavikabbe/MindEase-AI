@@ -94,7 +94,8 @@ function Chat() {
       
       <div style={styles.content}>
         <div style={styles.header}>
-          <h1 style={styles.title}><FaBrain size={12} /> MindEase</h1>
+          <h1 style={styles.title}><FaBrain size={14} /> MindEase AI</h1>
+          <p style={styles.subtitle}>Your thoughtful companion</p>
         </div>
 
         <div style={styles.chatContainer}>
@@ -102,12 +103,12 @@ function Chat() {
             {messages.map(msg => (
               <div key={msg.id} style={{...styles.message, justifyContent: msg.isUser ? 'flex-end' : 'flex-start'}}>
                 <div style={styles.messageWrapper}>
-                  {!msg.isUser && <FaRobot size={8} style={styles.avatarIcon} />}
+                  {!msg.isUser && <FaRobot size={10} style={styles.avatarIcon} />}
                   <div style={{...styles.messageBubble, background: msg.isUser ? '#667eea' : '#f0f0f0', color: msg.isUser ? 'white' : '#333'}}>
                     <p style={styles.messageText}>{msg.text}</p>
                     <span style={styles.messageTime}>{msg.time}</span>
                   </div>
-                  {msg.isUser && <FaUser size={8} style={styles.avatarIcon} />}
+                  {msg.isUser && <FaUser size={10} style={styles.avatarIcon} />}
                 </div>
               </div>
             ))}
@@ -128,11 +129,11 @@ function Chat() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-              placeholder="Message..."
+              placeholder="Type your message..."
               style={styles.input}
             />
             <button onClick={sendMessage} style={styles.sendBtn}>
-              <FaPaperPlane size={9} />
+              <FaPaperPlane size={11} />
             </button>
           </div>
         </div>
@@ -150,39 +151,44 @@ const styles = {
     height: '52px' 
   },
   content: { 
-    maxWidth: '420px', 
+    maxWidth: '550px', 
     margin: '0 auto', 
-    padding: '0 12px 16px 12px' 
+    padding: '0 16px 20px 16px' 
   },
   header: { 
     textAlign: 'center', 
-    marginBottom: '8px', 
+    marginBottom: '16px', 
     color: 'white' 
   },
   title: { 
-    fontSize: '16px', 
-    marginBottom: '0', 
+    fontSize: '20px', 
+    marginBottom: '4px', 
     display: 'flex', 
     alignItems: 'center', 
     justifyContent: 'center', 
-    gap: '5px' 
+    gap: '6px' 
+  },
+  subtitle: {
+    fontSize: '11px',
+    opacity: 0.8,
   },
   chatContainer: { 
     background: 'white', 
-    borderRadius: '12px', 
-    height: '320px', 
+    borderRadius: '20px', 
+    height: '480px', 
     display: 'flex', 
     flexDirection: 'column', 
     overflow: 'hidden',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+    boxShadow: '0 10px 30px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.1) inset',
+    transform: 'translateZ(0)',
   },
   messagesArea: { 
     flex: 1, 
     overflowY: 'auto', 
-    padding: '10px', 
+    padding: '16px', 
     display: 'flex', 
     flexDirection: 'column', 
-    gap: '6px' 
+    gap: '10px' 
   },
   message: { 
     display: 'flex' 
@@ -190,78 +196,81 @@ const styles = {
   messageWrapper: {
     display: 'flex',
     alignItems: 'flex-end',
-    gap: '3px',
+    gap: '5px',
     maxWidth: '85%'
   },
   avatarIcon: {
     color: '#667eea',
-    marginBottom: '2px'
+    marginBottom: '3px'
   },
   messageBubble: { 
-    padding: '5px 8px', 
-    borderRadius: '12px',
-    maxWidth: '100%'
+    padding: '8px 12px', 
+    borderRadius: '16px',
+    maxWidth: '100%',
+    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
   },
   messageText: { 
     margin: 0, 
-    fontSize: '10px', 
-    lineHeight: 1.3,
+    fontSize: '12px', 
+    lineHeight: 1.4,
     whiteSpace: 'pre-wrap'
   },
   messageTime: { 
-    fontSize: '7px', 
+    fontSize: '8px', 
     opacity: 0.4, 
     display: 'block', 
-    marginTop: '3px' 
+    marginTop: '5px' 
   },
   typingContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '4px 8px',
+    padding: '6px 10px',
     background: '#f0f0f0',
-    borderRadius: '12px',
-    width: '35px'
+    borderRadius: '16px',
+    width: '45px'
   },
   typingIndicator: { 
     display: 'flex', 
-    gap: '2px', 
+    gap: '3px', 
     alignItems: 'center'
   },
   typingDot: { 
-    width: '4px', 
-    height: '4px', 
+    width: '5px', 
+    height: '5px', 
     background: '#999', 
     borderRadius: '50%', 
     animation: 'bounce 0.8s infinite' 
   },
   inputArea: { 
     display: 'flex', 
-    padding: '8px', 
-    gap: '6px', 
+    padding: '12px', 
+    gap: '10px', 
     borderTop: '1px solid #eef2f7',
-    background: 'white'
+    background: 'white',
+    boxShadow: '0 -2px 10px rgba(0,0,0,0.05)',
   },
   input: { 
     flex: 1, 
-    padding: '6px 10px', 
+    padding: '10px 14px', 
     border: '1px solid #e0e0e0', 
-    borderRadius: '18px', 
+    borderRadius: '25px', 
     outline: 'none', 
-    fontSize: '10px',
-    transition: 'border 0.2s'
+    fontSize: '12px',
+    transition: 'border 0.2s, box-shadow 0.2s',
   },
   sendBtn: { 
     background: '#667eea', 
     color: 'white', 
     border: 'none', 
-    width: '26px', 
-    height: '26px', 
+    width: '34px', 
+    height: '34px', 
     borderRadius: '50%', 
     cursor: 'pointer', 
     display: 'flex', 
     alignItems: 'center', 
     justifyContent: 'center',
-    transition: 'transform 0.2s'
+    transition: 'transform 0.2s, box-shadow 0.2s',
+    boxShadow: '0 2px 8px rgba(102,126,234,0.3)',
   },
 };
 
@@ -275,10 +284,12 @@ styleSheet.textContent = `
   
   input:focus {
     border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
   }
   
   button:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102,126,234,0.4);
   }
 `;
 document.head.appendChild(styleSheet);
