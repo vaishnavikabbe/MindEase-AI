@@ -13,19 +13,12 @@ function Navbar() {
     { path: '/dashboard', icon: <FaHome size={13} />, label: 'Home' },
     { path: '/habits', icon: <FaCheckCircle size={13} />, label: 'Habits' },
     { path: '/chat', icon: <FaComments size={13} />, label: 'Chat' },
-    { path: '/journal', icon: <FaBook size={13} />, label: 'Journal' },
-    { path: '/games', icon: <FaGamepad size={13} />, label: 'Games' },
     { path: '/profile', icon: <FaUserCircle size={13} />, label: 'Profile' },
   ];
 
   const handleLogout = () => {
-    // Clear all localStorage
     localStorage.clear();
-    
-    // Clear sessionStorage
     sessionStorage.clear();
-    
-    // Force redirect to login page with page reload
     window.location.href = '/';
   };
 
