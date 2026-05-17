@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   FaComments, FaClock, FaHeartbeat, FaBrain, FaFire, FaCalendar, 
   FaUser, FaBook, FaUserSecret, FaChartLine, FaExclamationTriangle,
-  FaCheckCircle, FaCircle, FaArrowRight, FaGamepad
+  FaCheckCircle, FaCircle, FaArrowRight, FaGamepad, FaMoon
 } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import MoodTracker from '../components/MoodTracker';
@@ -54,6 +54,7 @@ function Dashboard() {
     { icon: <FaBook size={16} />, label: 'Journal', color: '#e74c3c', path: '/journal' },
     { icon: <FaHeartbeat size={16} />, label: 'Mood History', color: '#2ecc71', path: '/mood-history' },
     { icon: <FaGamepad size={16} />, label: 'Games', color: '#f39c12', path: '/games' },
+    { icon: <FaMoon size={16} />, label: 'Sleep Mode', color: '#8e44ad', path: '/sleep' },
   ];
 
   const inspirationalQuotes = [
@@ -165,7 +166,7 @@ function Dashboard() {
           <MoodTracker selectedMood={selectedMood} setSelectedMood={setSelectedMood} />
         </div>
 
-        {/* Quick Actions - 2x2 Grid */}
+        {/* Quick Actions - 2x2 Grid (Now 5 items, will wrap) */}
         <div style={styles.actionGrid}>
           {quickActions.map((action, index) => (
             <div
@@ -361,7 +362,7 @@ const styles = {
     color: '#333',
   },
   
-  // Quick Actions - 2x2 Grid
+  // Quick Actions - 2x2 Grid (auto-wrap)
   actionGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',

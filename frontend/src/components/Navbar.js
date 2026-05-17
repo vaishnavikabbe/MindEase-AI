@@ -2,7 +2,8 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   FaHome, FaCheckCircle, FaComments, FaClock, FaUserCircle, 
-  FaSignOutAlt, FaHeartbeat, FaBook, FaGamepad, FaBrain, FaUserSecret
+  FaSignOutAlt, FaHeartbeat, FaBook, FaGamepad, FaBrain, 
+  FaUserSecret, FaMoon
 } from 'react-icons/fa';
 
 function Navbar() {
@@ -13,6 +14,7 @@ function Navbar() {
     { path: '/dashboard', icon: <FaHome size={13} />, label: 'Home' },
     { path: '/habits', icon: <FaCheckCircle size={13} />, label: 'Habits' },
     { path: '/chat', icon: <FaComments size={13} />, label: 'Chat' },
+    { path: '/sleep', icon: <FaMoon size={13} />, label: 'Sleep' },
     { path: '/profile', icon: <FaUserCircle size={13} />, label: 'Profile' },
   ];
 
