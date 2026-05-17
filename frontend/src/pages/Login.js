@@ -16,24 +16,23 @@ function Login() {
   const navigate = useNavigate();
 
   // Avatar arrays (same as Profile page)
-  const boyAvatars = [
-    { id: 1, url: 'https://randomuser.me/api/portraits/men/1.jpg', name: 'Alex' },
-    { id: 2, url: 'https://randomuser.me/api/portraits/men/2.jpg', name: 'Ben' },
-    { id: 3, url: 'https://randomuser.me/api/portraits/men/3.jpg', name: 'Charlie' },
-    { id: 4, url: 'https://randomuser.me/api/portraits/men/4.jpg', name: 'David' },
-    { id: 5, url: 'https://randomuser.me/api/portraits/men/5.jpg', name: 'Ethan' },
-    { id: 6, url: 'https://randomuser.me/api/portraits/men/6.jpg', name: 'Frank' },
+   const boyAvatars = [
+    { id: 1, url: 'https://i1-c.pinimg.com/1200x/d3/2e/38/d32e380d73a5a7aa85c0c8e0fbbd5821.jpg' },
+    { id: 2, url: 'https://i1-c.pinimg.com/736x/6f/29/ba/6f29ba6e45aae8b4d2fd50ab19923e44.jpg' },
+    { id: 3, url: 'https://i.pinimg.com/736x/1b/27/94/1b2794ea582fc2a82d2af8a8f8f0578d.jpg' },
+    { id: 4, url: 'https://i.pinimg.com/736x/55/5e/5e/555e5e6a40392d3e277b898b3ced7e70.jpg' },
+    { id: 5, url: 'https://i1-c.pinimg.com/736x/87/d2/39/87d239c65732f941a8f2d9cce9f245f9.jpg' },
+    { id: 6, url: 'https://i.pinimg.com/736x/9f/17/44/9f17441035139b25b3d18221926609ce.jpg' },
   ];
 
   const girlAvatars = [
-    { id: 1, url: 'https://randomuser.me/api/portraits/women/1.jpg', name: 'Emma' },
-    { id: 2, url: 'https://randomuser.me/api/portraits/women/2.jpg', name: 'Sophia' },
-    { id: 3, url: 'https://randomuser.me/api/portraits/women/3.jpg', name: 'Olivia' },
-    { id: 4, url: 'https://randomuser.me/api/portraits/women/4.jpg', name: 'Ava' },
-    { id: 5, url: 'https://randomuser.me/api/portraits/women/5.jpg', name: 'Mia' },
-    { id: 6, url: 'https://randomuser.me/api/portraits/women/6.jpg', name: 'Isabella' },
+    { id: 1, url: 'https://i.pinimg.com/736x/38/db/88/38db88648a2be82fc1f1064facab7c53.jpg' },
+    { id: 2, url: 'https://i.pinimg.com/736x/27/b3/a2/27b3a20243c6f8dd82e89193fb41edd7.jpg' },
+    { id: 3, url: 'https://i.pinimg.com/736x/70/fa/1a/70fa1a3de7daf45216c8ed8ecbd68eba.jpg' },
+    { id: 4, url: 'https://i.pinimg.com/736x/d9/24/b5/d924b552555b0ea624d6f39c63dcd6b6.jpg'},
+    { id: 5, url: 'https://i.pinimg.com/736x/e7/65/c4/e765c44861620cd48501aee4603bd313.jpg'},
+    { id: 6, url: 'https://i.pinimg.com/736x/08/42/1a/08421a72d235bf60dd81077a64e72d2a.jpg'},
   ];
-
   const customAvatars = [
     { id: 1, url: 'https://i.pinimg.com/736x/a1/27/73/a1277303ec49ee936b2ba11bb3a98a18.jpg', name: 'Cartoon 1', category: 'cartoon' },
     { id: 2, url: 'https://i1-c.pinimg.com/1200x/67/ef/9d/67ef9d9bb1b009281379840a737c811f.jpg', name: 'Cartoon 2', category: 'cartoon' },
