@@ -8,27 +8,40 @@ function Login() {
   const [name, setName] = useState('');
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     
     if (isSignup && !name) {
       setError('Please enter your name');
+      setLoading(false);
       return;
     }
     
     if (!email || !password) {
       setError('Please enter email and password');
+      setLoading(false);
       return;
     }
     
-    localStorage.setItem('userName', isSignup ? name : (name || email.split('@')[0]));
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('isLoggedIn', 'true');
-    
-    navigate('/dashboard');
+    // Simulate a tiny delay for better UX
+    setTimeout(() => {
+      // Store user info in localStorage
+      localStorage.setItem('userName', isSignup ? name : (name || email.split('@')[0]));
+      localStorage.setItem('userEmail', email);
+      
+      // Set login flag
+      localStorage.setItem('isLoggedIn', 'true');
+      
+      setLoading(false);
+      
+      // Use window.location for guaranteed redirect without refresh issues
+      window.location.href = '/dashboard';
+    }, 500);
   };
 
   return (
@@ -89,8 +102,12 @@ function Login() {
             required
           />
           
-          <button type="submit" style={styles.button}>
-            {isSignup ? '✨ Create Account ✨' : '🚀 Get Started 🚀'}
+          <button type="submit" style={styles.button} disabled={loading}>
+            {loading ? (
+              <span>⏳ Please wait...</span>
+            ) : (
+              isSignup ? '✨ Create Account ✨' : '🚀 Get Started 🚀'
+            )}
           </button>
         </form>
 
@@ -99,6 +116,7 @@ function Login() {
           <span onClick={() => {
             setIsSignup(!isSignup);
             setError('');
+            setLoading(false);
           }} style={styles.switchLink}>
             {isSignup ? 'Sign In' : 'Sign Up'}
           </span>
@@ -208,6 +226,11 @@ const styles = {
     fontWeight: '600',
     cursor: 'pointer',
     width: '100%',
+    transition: 'opacity 0.3s',
+  },
+  buttonDisabled: {
+    opacity: 0.7,
+    cursor: 'not-allowed',
   },
   switchText: {
     textAlign: 'center',
