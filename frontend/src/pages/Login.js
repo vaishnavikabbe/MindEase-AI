@@ -24,14 +24,10 @@ function Login() {
       return;
     }
     
-    // Store user info in localStorage
     localStorage.setItem('userName', isSignup ? name : (name || email.split('@')[0]));
     localStorage.setItem('userEmail', email);
-    
-    // Set login flag
     localStorage.setItem('isLoggedIn', 'true');
     
-    // Redirect to dashboard
     navigate('/dashboard');
   };
 
@@ -123,57 +119,60 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    padding: '16px',
   },
   card: {
     background: 'rgba(255, 255, 255, 0.98)',
     borderRadius: '30px',
-    padding: '40px',
-    width: '450px',
-    maxWidth: '90%',
+    padding: '30px 24px',
+    width: '100%',
+    maxWidth: '450px',
     boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
   },
   logoContainer: {
     textAlign: 'center',
-    marginBottom: '30px',
+    marginBottom: '24px',
   },
   logoIcon: {
-    width: '80px',
-    height: '80px',
+    width: '70px',
+    height: '70px',
     background: 'linear-gradient(135deg, #667eea20 0%, #764ba220 100%)',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 auto 15px',
+    margin: '0 auto 12px',
   },
   logoText: {
-    fontSize: '32px',
+    fontSize: '28px',
     fontWeight: '800',
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
-    marginBottom: '5px',
+    marginBottom: '4px',
   },
   tagline: {
     color: '#666',
-    fontSize: '14px',
+    fontSize: '12px',
   },
   features: {
     display: 'flex',
     justifyContent: 'space-around',
-    marginBottom: '30px',
-    padding: '15px',
+    marginBottom: '24px',
+    padding: '12px',
     background: '#f8f9ff',
     borderRadius: '15px',
+    flexWrap: 'wrap',
+    gap: '10px',
   },
   feature: {
     textAlign: 'center',
-    fontSize: '12px',
+    fontSize: '11px',
     color: '#667eea',
   },
   featureIcon: {
-    fontSize: '20px',
-    marginBottom: '5px',
+    fontSize: '18px',
+    marginBottom: '4px',
     display: 'block',
   },
   errorMsg: {
@@ -181,36 +180,40 @@ const styles = {
     color: '#d63031',
     padding: '10px',
     borderRadius: '10px',
-    fontSize: '13px',
+    fontSize: '12px',
     textAlign: 'center',
-    marginBottom: '15px',
+    marginBottom: '16px',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '15px',
+    gap: '12px',
   },
   input: {
-    padding: '14px 18px',
+    padding: '12px 16px',
     border: '2px solid #e0e0e0',
     borderRadius: '12px',
-    fontSize: '16px',
+    fontSize: '14px',
     outline: 'none',
+    width: '100%',
+    boxSizing: 'border-box',
   },
   button: {
-    padding: '14px',
+    padding: '12px',
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     color: 'white',
     border: 'none',
     borderRadius: '12px',
-    fontSize: '18px',
+    fontSize: '16px',
     fontWeight: '600',
     cursor: 'pointer',
+    width: '100%',
   },
   switchText: {
     textAlign: 'center',
-    marginTop: '20px',
+    marginTop: '16px',
     color: '#666',
+    fontSize: '12px',
   },
   switchLink: {
     color: '#667eea',
@@ -220,11 +223,11 @@ const styles = {
   },
   demoHint: {
     textAlign: 'center',
-    marginTop: '20px',
-    padding: '10px',
+    marginTop: '16px',
+    padding: '8px',
     background: '#fff3cd',
     borderRadius: '8px',
-    fontSize: '12px',
+    fontSize: '10px',
     color: '#856404',
   },
 };
