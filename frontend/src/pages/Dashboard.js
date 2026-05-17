@@ -50,10 +50,10 @@ function Dashboard() {
   const upcomingItems = academicItems.filter(i => !i.completed).slice(0, 2);
 
   const quickActions = [
-    { icon: <FaComments size={18} />, label: 'AI Chat', color: '#667eea', path: '/chat' },
-    { icon: <FaBook size={18} />, label: 'Journal', color: '#e74c3c', path: '/journal' },
-    { icon: <FaHeartbeat size={18} />, label: 'Mood History', color: '#2ecc71', path: '/mood-history' },
-    { icon: <FaGamepad size={18} />, label: 'Games', color: '#f39c12', path: '/games' },
+    { icon: <FaComments size={16} />, label: 'AI Chat', color: '#667eea', path: '/chat' },
+    { icon: <FaBook size={16} />, label: 'Journal', color: '#e74c3c', path: '/journal' },
+    { icon: <FaHeartbeat size={16} />, label: 'Mood History', color: '#2ecc71', path: '/mood-history' },
+    { icon: <FaGamepad size={16} />, label: 'Games', color: '#f39c12', path: '/games' },
   ];
 
   const inspirationalQuotes = [
@@ -70,7 +70,7 @@ function Dashboard() {
       <div style={styles.navSpacer} />
       
       <div style={styles.content}>
-        {/* Welcome Card */}
+        {/* Welcome Card - Mobile Friendly */}
         <div style={styles.welcomeCard}>
           <div style={styles.welcomeContent}>
             <div style={styles.userInfoContainer}>
@@ -79,7 +79,7 @@ function Dashboard() {
                   <img src={userAvatar} alt="Avatar" style={styles.userAvatar} />
                 ) : (
                   <div style={styles.avatarPlaceholder}>
-                    <FaUser size={16} color="#fff" />
+                    <FaUser size={14} color="#fff" />
                   </div>
                 )}
               </div>
@@ -89,9 +89,9 @@ function Dashboard() {
               </div>
             </div>
             <div style={styles.streakBadge}>
-              <FaFire color="#e74c3c" size={14} />
+              <FaFire color="#e74c3c" size={12} />
               <span style={styles.streakNumber}>{stats.streak}</span>
-              <span style={styles.streakText}>day streak</span>
+              <span style={styles.streakText}>🔥day streak</span>
             </div>
           </div>
           <div style={styles.quoteBox}>
@@ -99,34 +99,34 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Stats Row - Bigger */}
+        {/* Stats Row - Mobile Friendly (2x2 Grid on mobile) */}
         <div style={styles.statsRow}>
           <div style={styles.statTile}>
-            <div style={styles.statValueBig}>{stats.streak}</div>
-            <div style={styles.statLabelBig}>Day Streak</div>
+            <div style={styles.statValue}>{stats.streak}</div>
+            <div style={styles.statLabel}>🔥Day Streak</div>
           </div>
           <div style={styles.statTile}>
-            <div style={styles.statValueBig}>{stats.totalFocus}</div>
-            <div style={styles.statLabelBig}>Focus Minutes</div>
+            <div style={styles.statValue}>{stats.totalFocus}</div>
+            <div style={styles.statLabel}>⏰Focus Minutes</div>
           </div>
           <div style={styles.statTile}>
-            <div style={styles.statValueBig}>{stats.habitsCompleted}</div>
-            <div style={styles.statLabelBig}>Habits Done</div>
+            <div style={styles.statValue}>{stats.habitsCompleted}</div>
+            <div style={styles.statLabel}>🌱Habits</div>
           </div>
           <div style={styles.statTile}>
-            <div style={styles.statValueBig}>{stats.badges}</div>
-            <div style={styles.statLabelBig}>Badges</div>
+            <div style={styles.statValue}>{stats.badges}</div>
+            <div style={styles.statLabel}>🎖️Badges</div>
           </div>
         </div>
 
-        {/* Three Bigger Cards */}
+        {/* Three Cards - Stack on Mobile */}
         <div style={styles.threeCardsRow}>
           
           <div style={styles.compactCard} onClick={() => navigate('/academic-load')}>
             <div style={styles.compactCardHeader}>
               <span style={styles.compactCardIcon}>📚</span>
               <span style={styles.compactCardTitle}>Academic Load</span>
-              <FaArrowRight size={12} color="#667eea" />
+              <FaArrowRight size={10} color="#667eea" />
             </div>
             {upcomingItems.length === 0 ? (
               <p style={styles.compactCardEmpty}>No pending tasks</p>
@@ -139,7 +139,7 @@ function Dashboard() {
               ))
             )}
             <div style={styles.compactCardFooter}>
-              <span>View all tasks →</span>
+              <span>View all →</span>
             </div>
           </div>
 
@@ -147,7 +147,7 @@ function Dashboard() {
             <div style={styles.compactCardHeader}>
               <span style={styles.compactCardIcon}>🔥</span>
               <span style={styles.compactCardTitle}>Burnout Check</span>
-              <FaArrowRight size={12} color="#667eea" />
+              <FaArrowRight size={10} color="#667eea" />
             </div>
             <div style={styles.compactTip}>
               <span>💡 {currentTip}</span>
@@ -160,15 +160,15 @@ function Dashboard() {
           <div style={styles.compactCard} onClick={() => navigate('/anonymous')}>
             <div style={styles.compactCardHeader}>
               <span style={styles.compactCardIcon}>🔒</span>
-              <span style={styles.compactCardTitle}>Anonymous Support</span>
-              <FaArrowRight size={12} color="#667eea" />
+              <span style={styles.compactCardTitle}>Anonymous</span>
+              <FaArrowRight size={10} color="#667eea" />
             </div>
             <div style={styles.compactAnonymous}>
               <span>Share anonymously</span>
-              <span style={styles.compactBadge}>100% Private</span>
+              <span style={styles.compactBadge}>Private</span>
             </div>
             <div style={styles.compactCardFooter}>
-              <span>Start chatting →</span>
+              <span>Chat →</span>
             </div>
           </div>
         </div>
@@ -181,7 +181,7 @@ function Dashboard() {
           <MoodTracker selectedMood={selectedMood} setSelectedMood={setSelectedMood} />
         </div>
 
-        {/* Quick Actions - Bigger */}
+        {/* Quick Actions - 2x2 Grid on Mobile */}
         <div style={styles.actionGrid}>
           {quickActions.map((action, index) => (
             <div
@@ -199,7 +199,7 @@ function Dashboard() {
 
         {/* Emergency Banner */}
         <div style={styles.emergencyBanner}>
-          <span>🚨 24/7 Support Available</span>
+          <span>🚨 24/7 Support</span>
           <button style={styles.emergencyBtn} onClick={() => navigate('/emergency')}>
             Get Help →
           </button>
@@ -218,35 +218,35 @@ const styles = {
     height: '52px',
   },
   content: {
-    maxWidth: '1000px',
+    maxWidth: '100%',
     margin: '0 auto',
-    padding: '0 16px 20px 16px',
+    padding: '12px',
   },
   
-  // Welcome Card
+  // Welcome Card - Mobile
   welcomeCard: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     borderRadius: '16px',
-    padding: '20px 24px',
+    padding: '14px 16px',
     color: 'white',
-    marginBottom: '20px',
+    marginBottom: '16px',
   },
   welcomeContent: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '12px',
+    marginBottom: '10px',
     flexWrap: 'wrap',
-    gap: '10px',
+    gap: '8px',
   },
   userInfoContainer: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
+    gap: '10px',
   },
   avatarContainer: {
-    width: '45px',
-    height: '45px',
+    width: '40px',
+    height: '40px',
     borderRadius: '50%',
     overflow: 'hidden',
     border: '2px solid white',
@@ -265,123 +265,119 @@ const styles = {
     justifyContent: 'center',
   },
   greeting: {
-    fontSize: '18px',
-    marginBottom: '4px',
+    fontSize: '14px',
+    marginBottom: '2px',
     fontWeight: '600',
   },
   welcomeText: {
     opacity: 0.85,
-    fontSize: '12px',
+    fontSize: '10px',
   },
   streakBadge: {
     background: 'rgba(255,255,255,0.2)',
-    padding: '8px 16px',
-    borderRadius: '30px',
+    padding: '6px 12px',
+    borderRadius: '25px',
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
+    gap: '6px',
   },
   streakNumber: {
-    fontSize: '18px',
+    fontSize: '14px',
     fontWeight: 'bold',
   },
   streakText: {
-    fontSize: '11px',
+    fontSize: '9px',
   },
   quoteBox: {
-    background: 'rgba(255,255,255,0.12)',
-    padding: '10px 14px',
-    borderRadius: '12px',
+    background: 'rgba(255,255,255,0.1)',
+    padding: '8px 10px',
+    borderRadius: '10px',
     textAlign: 'center',
   },
   quoteText: {
-    fontSize: '13px',
+    fontSize: '11px',
     fontStyle: 'italic',
-    marginBottom: '3px',
-  },
-  quoteAuthor: {
-    fontSize: '10px',
-    opacity: 0.8,
+    margin: 0,
   },
   
-  // Stats Row - Bigger
+  // Stats Row - 2x2 Grid
   statsRow: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '15px',
-    marginBottom: '25px',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '10px',
+    marginBottom: '16px',
   },
   statTile: {
     background: 'white',
-    borderRadius: '14px',
-    padding: '16px 10px',
+    borderRadius: '12px',
+    padding: '12px 8px',
     textAlign: 'center',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
   },
-  statValueBig: {
-    fontSize: '28px',
+  statValue: {
+    fontSize: '24px',
     fontWeight: 'bold',
     color: '#333',
   },
-  statLabelBig: {
-    fontSize: '12px',
+  statLabel: {
+    fontSize: '10px',
     color: '#888',
-    marginTop: '5px',
+    marginTop: '4px',
   },
 
-  // Three Bigger Cards
+  // Three Cards - Stack on Mobile
   threeCardsRow: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '16px',
-    marginBottom: '25px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    marginBottom: '16px',
   },
   compactCard: {
     background: 'white',
-    borderRadius: '16px',
-    padding: '18px',
+    borderRadius: '14px',
+    padding: '14px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
   },
   compactCardHeader: {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    marginBottom: '12px',
-    fontSize: '15px',
+    marginBottom: '10px',
+    fontSize: '14px',
     fontWeight: '600',
     color: '#333',
   },
   compactCardIcon: {
-    fontSize: '22px',
+    fontSize: '20px',
   },
   compactCardTitle: {
     flex: 1,
-    fontSize: '14px',
+    fontSize: '13px',
   },
   compactCardEmpty: {
-    fontSize: '12px',
+    fontSize: '11px',
     color: '#999',
     textAlign: 'center',
-    padding: '15px 0',
+    padding: '12px 0',
     margin: 0,
   },
   compactTask: {
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
-    padding: '8px 0',
-    fontSize: '12px',
+    gap: '6px',
+    padding: '6px 0',
+    fontSize: '11px',
     borderBottom: '1px solid #f0f0f0',
   },
   compactTaskTitle: {
-    fontSize: '12px',
+    fontSize: '11px',
     color: '#555',
   },
   compactTip: {
-    padding: '12px 0',
-    fontSize: '12px',
+    padding: '10px 0',
+    fontSize: '11px',
     color: '#667eea',
     textAlign: 'center',
   },
@@ -389,89 +385,89 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: '8px',
-    padding: '12px 0',
-    fontSize: '12px',
+    gap: '6px',
+    padding: '10px 0',
+    fontSize: '11px',
   },
   compactBadge: {
-    fontSize: '10px',
+    fontSize: '9px',
     background: '#e8f5e9',
-    padding: '4px 10px',
-    borderRadius: '20px',
+    padding: '3px 8px',
+    borderRadius: '15px',
     color: '#2ecc71',
   },
   compactCardFooter: {
-    marginTop: '12px',
-    paddingTop: '10px',
+    marginTop: '10px',
+    paddingTop: '8px',
     borderTop: '1px solid #f0f0f0',
-    fontSize: '11px',
+    fontSize: '10px',
     color: '#667eea',
     textAlign: 'center',
   },
 
   section: {
-    marginBottom: '25px',
+    marginBottom: '16px',
   },
   sectionHeader: {
-    marginBottom: '12px',
+    marginBottom: '10px',
   },
   sectionTitle: {
-    fontSize: '16px',
+    fontSize: '14px',
     fontWeight: '600',
     color: '#333',
   },
   
-  // Quick Actions - Bigger
+  // Quick Actions - 2x2 Grid
   actionGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '15px',
-    marginBottom: '25px',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '12px',
+    marginBottom: '16px',
   },
   compactActionCard: {
     background: 'white',
-    borderRadius: '14px',
-    padding: '16px 12px',
+    borderRadius: '12px',
+    padding: '14px 10px',
     textAlign: 'center',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
   },
   compactActionIcon: {
-    width: '45px',
-    height: '45px',
+    width: '40px',
+    height: '40px',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 auto 10px',
+    margin: '0 auto 8px',
   },
   compactActionLabel: {
-    fontSize: '13px',
+    fontSize: '11px',
     fontWeight: '500',
-    color: '#333',
+    color: '#555',
   },
   
-  // Emergency Banner
+  // Emergency Banner - Mobile
   emergencyBanner: {
     background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
-    borderRadius: '14px',
-    padding: '14px 20px',
+    borderRadius: '12px',
+    padding: '10px 14px',
     color: 'white',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    fontSize: '13px',
+    fontSize: '11px',
   },
   emergencyBtn: {
     background: 'white',
     color: '#ee5a24',
     border: 'none',
-    padding: '8px 20px',
-    borderRadius: '30px',
+    padding: '6px 14px',
+    borderRadius: '25px',
     fontWeight: 'bold',
     cursor: 'pointer',
-    fontSize: '12px',
+    fontSize: '10px',
   },
 };
 
