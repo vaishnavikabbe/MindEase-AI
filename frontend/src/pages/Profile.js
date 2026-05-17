@@ -19,13 +19,11 @@ function Profile() {
     avatarCategory: null
   });
   
-  // Personal Information State (Expanded)
   const [personalInfo, setPersonalInfo] = useState({
     age: '',
     gender: '',
     height: '',
     weight: '',
-    // Additional Questions
     sleepHours: '',
     exercise: '',
     waterIntake: '',
@@ -46,7 +44,6 @@ function Profile() {
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState('');
 
-  // Avatar arrays
   const boyAvatars = [
     { id: 1, url: 'https://i1-c.pinimg.com/1200x/d3/2e/38/d32e380d73a5a7aa85c0c8e0fbbd5821.jpg' },
     { id: 2, url: 'https://i1-c.pinimg.com/736x/6f/29/ba/6f29ba6e45aae8b4d2fd50ab19923e44.jpg' },
@@ -107,9 +104,12 @@ function Profile() {
 
   const handleSaveName = () => {
     if (newName.trim()) {
-      setUser({ ...user, name: newName.trim() });
+      const updatedUser = { ...user, name: newName.trim() };
+      setUser(updatedUser);
       localStorage.setItem('userName', newName.trim());
       setIsEditingName(false);
+      // Also update dashboard greeting
+      window.dispatchEvent(new Event('storage'));
     }
   };
 
@@ -173,13 +173,9 @@ function Profile() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userAvatar');
-    localStorage.removeItem('userAvatarCategory');
-    localStorage.removeItem('personalInfo');
-    navigate('/');
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = '/';
   };
 
   const renderEditableField = (label, field, type = 'text', options = null) => {
@@ -247,7 +243,14 @@ function Profile() {
             <div style={styles.nameContainer}>
               {isEditingName ? (
                 <div style={styles.editNameContainer}>
-                  <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} style={styles.nameInput} onKeyPress={(e) => e.key === 'Enter' && handleSaveName()} />
+                  <input 
+                    type="text" 
+                    value={newName} 
+                    onChange={(e) => setNewName(e.target.value)} 
+                    style={styles.nameInput} 
+                    onKeyPress={(e) => e.key === 'Enter' && handleSaveName()} 
+                    autoFocus
+                  />
                   <button onClick={handleSaveName} style={styles.saveNameBtn}><FaSave /></button>
                   <button onClick={handleCancelEdit} style={styles.cancelNameBtn}><FaTimes /></button>
                 </div>
@@ -290,7 +293,7 @@ function Profile() {
                 </>
               ) : (
                 <>
-                  <button onClick={() => setSelectedCategory(null)} style={styles.backBtn}>← Back</button>
+                  <button onClick={() => setSelectedCategory(null)} style={styles.backBtn2}>← Back</button>
                   <div style={styles.avatarGrid}>{(selectedCategory === 'boys' ? boyAvatars : girlAvatars).map((avatar) => (<div key={avatar.id} style={styles.avatarOption} onClick={() => handleAvatarSelect(avatar.url, selectedCategory)}><img src={avatar.url} alt="Avatar" style={styles.avatarOptionImage} /></div>))}</div>
                 </>
               )}
@@ -299,7 +302,7 @@ function Profile() {
           )}
         </div>
 
-        {/* Personal Information Card - Expanded */}
+        {/* Personal Information Card */}
         <div style={styles.personalCard}>
           <div style={styles.cardHeader}>
             <h3 style={styles.cardTitle}><FaUser /> Personal Information</h3>
@@ -313,7 +316,7 @@ function Profile() {
             )}
           </div>
           
-          {/* Basic Info */}
+          {/* Basic Info - Fixed Grid */}
           <div style={styles.section}>
             <h4 style={styles.sectionTitle}>Basic Information</h4>
             <div style={styles.formGrid}>
@@ -346,10 +349,10 @@ function Profile() {
             </div>
           </div>
 
-          {/* Living Situation */}
+          {/* Living Situation - Full Width */}
           <div style={styles.section}>
             <h4 style={styles.sectionTitle}><FaHome /> Living Situation</h4>
-            <div style={styles.formField}>
+            <div style={styles.fullWidthField}>
               <label>Living Situation</label>
               {renderEditableField('Living Situation', 'livingSituation', 'select', ['Alone', 'With Family', 'With Roommates', 'With Partner', 'Hostel/Dorm'])}
             </div>
@@ -392,18 +395,18 @@ const styles = {
   avatarPlaceholder: { width: '80px', height: '80px', borderRadius: '50%', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #ccc' },
   editAvatarBtn: { position: 'absolute', bottom: '0', right: '0', background: '#667eea', color: 'white', border: 'none', width: '28px', height: '28px', borderRadius: '50%', cursor: 'pointer' },
   nameContainer: { marginBottom: '12px' },
-  nameDisplay: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' },
+  nameDisplay: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' },
   userName: { fontSize: '20px', color: '#333', margin: 0 },
   editNameBtn: { background: 'none', border: 'none', color: '#667eea', cursor: 'pointer' },
-  editNameContainer: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' },
+  editNameContainer: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' },
   nameInput: { fontSize: '16px', padding: '6px 10px', border: '2px solid #667eea', borderRadius: '8px', outline: 'none', textAlign: 'center', width: '180px' },
   saveNameBtn: { background: '#2ecc71', color: 'white', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer' },
   cancelNameBtn: { background: '#e74c3c', color: 'white', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer' },
   userInfo: { color: '#666', fontSize: '12px' },
-  infoRow: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '4px' },
+  infoRow: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '4px', flexWrap: 'wrap' },
 
   personalCard: { background: 'white', borderRadius: '16px', padding: '16px', marginBottom: '16px' },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', borderBottom: '1px solid #f0f0f0', paddingBottom: '10px' },
+  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', borderBottom: '1px solid #f0f0f0', paddingBottom: '10px', flexWrap: 'wrap', gap: '8px' },
   cardTitle: { fontSize: '16px', color: '#333', display: 'flex', alignItems: 'center', gap: '6px' },
   editBtn: { background: '#667eea', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '16px', cursor: 'pointer', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '4px' },
   actionBtns: { display: 'flex', gap: '6px' },
@@ -414,9 +417,10 @@ const styles = {
   sectionTitle: { fontSize: '13px', color: '#667eea', marginBottom: '10px', borderLeft: '3px solid #667eea', paddingLeft: '8px' },
   formGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
   formField: { display: 'flex', flexDirection: 'column', gap: '4px' },
-  input: { padding: '8px', border: '1px solid #e0e0e0', borderRadius: '8px', fontSize: '12px', outline: 'none' },
-  select: { padding: '8px', border: '1px solid #e0e0e0', borderRadius: '8px', fontSize: '12px', outline: 'none', background: 'white' },
-  fieldValue: { padding: '8px', background: '#f8f9ff', borderRadius: '8px', color: '#333', fontSize: '12px' },
+  fullWidthField: { display: 'flex', flexDirection: 'column', gap: '4px' },
+  input: { padding: '8px', border: '1px solid #e0e0e0', borderRadius: '8px', fontSize: '12px', outline: 'none', width: '100%', boxSizing: 'border-box' },
+  select: { padding: '8px', border: '1px solid #e0e0e0', borderRadius: '8px', fontSize: '12px', outline: 'none', background: 'white', width: '100%', boxSizing: 'border-box' },
+  fieldValue: { padding: '8px', background: '#f8f9ff', borderRadius: '8px', color: '#333', fontSize: '12px', wordBreak: 'break-word' },
 
   statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '16px' },
   statCard: { background: 'white', borderRadius: '12px', padding: '12px', textAlign: 'center' },
@@ -427,7 +431,7 @@ const styles = {
   menuCard: { background: 'white', borderRadius: '16px', padding: '16px' },
   logoutBtn: { width: '100%', padding: '10px', background: '#e74c3c', color: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '14px' },
 
-  // Avatar Picker Styles (compressed)
+  // Avatar Picker Styles
   avatarPicker: { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white', borderRadius: '16px', padding: '16px', width: '320px', maxHeight: '500px', overflowY: 'auto', boxShadow: '0 10px 40px rgba(0,0,0,0.2)', zIndex: 1000 },
   pickerHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' },
   closeBtn: { background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: '#999' },
