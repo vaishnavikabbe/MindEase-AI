@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHeart, FaBrain, FaSmile, FaRobot, FaMars, FaVenus, FaUpload, FaImage, FaTimes } from 'react-icons/fa';
 
@@ -15,8 +15,8 @@ function Login() {
   const [showUrlInput, setShowUrlInput] = useState(false);
   const navigate = useNavigate();
 
-  // Avatar arrays (same as Profile page)
-   const boyAvatars = [
+  // Avatar arrays
+  const boyAvatars = [
     { id: 1, url: 'https://i1-c.pinimg.com/1200x/d3/2e/38/d32e380d73a5a7aa85c0c8e0fbbd5821.jpg' },
     { id: 2, url: 'https://i1-c.pinimg.com/736x/6f/29/ba/6f29ba6e45aae8b4d2fd50ab19923e44.jpg' },
     { id: 3, url: 'https://i.pinimg.com/736x/1b/27/94/1b2794ea582fc2a82d2af8a8f8f0578d.jpg' },
@@ -33,6 +33,7 @@ function Login() {
     { id: 5, url: 'https://i.pinimg.com/736x/e7/65/c4/e765c44861620cd48501aee4603bd313.jpg'},
     { id: 6, url: 'https://i.pinimg.com/736x/08/42/1a/08421a72d235bf60dd81077a64e72d2a.jpg'},
   ];
+
   const customAvatars = [
     { id: 1, url: 'https://i.pinimg.com/736x/a1/27/73/a1277303ec49ee936b2ba11bb3a98a18.jpg', name: 'Cartoon 1', category: 'cartoon' },
     { id: 2, url: 'https://i1-c.pinimg.com/1200x/67/ef/9d/67ef9d9bb1b009281379840a737c811f.jpg', name: 'Cartoon 2', category: 'cartoon' },
@@ -56,10 +57,18 @@ function Login() {
     localStorage.setItem('userName', isSignup ? name : (name || email.split('@')[0]));
     localStorage.setItem('userEmail', email);
     
-    // Store selected avatar if any
+    // Store selected avatar if any - CLEAR OLD ONE FIRST
     if (selectedAvatar) {
+      // Remove old avatar first
+      localStorage.removeItem('userAvatar');
+      localStorage.removeItem('userAvatarCategory');
+      // Set new avatar
       localStorage.setItem('userAvatar', selectedAvatar);
       localStorage.setItem('userAvatarCategory', 'selected');
+    } else {
+      // If no avatar selected, clear any existing
+      localStorage.removeItem('userAvatar');
+      localStorage.removeItem('userAvatarCategory');
     }
     
     // Set login flag
@@ -69,7 +78,7 @@ function Login() {
     navigate('/dashboard');
   };
 
-  // Avatar selection handlers
+  // Avatar selection handlers - CLEAR PREVIOUS SELECTION
   const handleAvatarSelect = (avatarUrl) => {
     setSelectedAvatar(avatarUrl);
     setShowAvatarPicker(false);
@@ -95,6 +104,16 @@ function Login() {
       setCustomImageUrl('');
       setShowUrlInput(false);
     }
+  };
+
+  // Clear avatar when switching between login/signup
+  const handleSwitchMode = () => {
+    setIsSignup(!isSignup);
+    setError('');
+    setSelectedAvatar(null);
+    // Clear temporary avatar storage
+    localStorage.removeItem('tempAvatar');
+    localStorage.removeItem('tempAvatarCategory');
   };
 
   return (
@@ -178,11 +197,7 @@ function Login() {
 
         <p style={styles.switchText}>
           {isSignup ? 'Already have an account? ' : "Don't have an account? "}
-          <span onClick={() => {
-            setIsSignup(!isSignup);
-            setError('');
-            setSelectedAvatar(null);
-          }} style={styles.switchLink}>
+          <span onClick={handleSwitchMode} style={styles.switchLink}>
             {isSignup ? 'Sign In' : 'Sign Up'}
           </span>
         </p>
@@ -248,7 +263,7 @@ function Login() {
                 <div style={styles.avatarGrid}>
                   {(selectedCategory === 'boys' ? boyAvatars : girlAvatars).map((avatar) => (
                     <div key={avatar.id} style={styles.avatarOption} onClick={() => handleAvatarSelect(avatar.url)}>
-                      <img src={avatar.url} alt={avatar.name} style={styles.avatarOptionImage} />
+                      <img src={avatar.url} alt={`Avatar ${avatar.id}`} style={styles.avatarOptionImage} />
                     </div>
                   ))}
                 </div>
@@ -306,7 +321,6 @@ const styles = {
     fontSize: '12px',
   },
   
-  // Avatar Section
   avatarSection: {
     display: 'flex',
     justifyContent: 'center',
@@ -383,7 +397,6 @@ const styles = {
     border: '2px solid #e0e0e0',
     borderRadius: '12px',
     fontSize: '14px',
-    transition: 'all 0.3s ease',
     outline: 'none',
   },
   button: {
@@ -418,7 +431,6 @@ const styles = {
     color: '#856404',
   },
   
-  // Modal Styles
   modal: {
     position: 'fixed',
     top: 0,
