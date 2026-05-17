@@ -19,18 +19,14 @@ function Navbar() {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userAvatar');
-    localStorage.removeItem('userAvatarCategory');
-    localStorage.removeItem('studentInfo');
-    localStorage.removeItem('personalInfo');
-    localStorage.removeItem('academicLoad');
-    localStorage.removeItem('journalEntries');
-    localStorage.removeItem('moodHistory');
-    localStorage.removeItem('gameScore');
-    navigate('/');
+    // Clear all localStorage
+    localStorage.clear();
+    
+    // Clear sessionStorage
+    sessionStorage.clear();
+    
+    // Force redirect to login page with page reload
+    window.location.href = '/';
   };
 
   return (
